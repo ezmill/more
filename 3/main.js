@@ -151,7 +151,7 @@ function initFrameDifferencing(){
 			mouseY: {type: 'f', value: mouseY}
 		},
 		vertexShader: document.getElementById("vs").textContent,
-		fragmentShader: document.getElementById("fs").textContent
+		fragmentShader: document.getElementById("colorFs").textContent
 	});
 	meshFB = new THREE.Mesh(planeGeometry, materialFB);
 	sceneFB.add(meshFB);
@@ -167,7 +167,7 @@ function initFrameDifferencing(){
 			mouseY: {type: 'f', value: mouseY}
 		},
 		vertexShader: document.getElementById("vs").textContent,
-		fragmentShader: document.getElementById("colorFs").textContent
+		fragmentShader: document.getElementById("fs").textContent
 	});
 	meshFB2 = new THREE.Mesh(planeGeometry, materialFB2);
 	sceneFB2.add(meshFB2);
@@ -187,8 +187,8 @@ function bezierX(x1, y1, x2, y2, hue){
 
    // ctx.moveTo(x1+(0.5+ 0.5*Math.sin(time)*canvas.width), y1);
     //ctx.lineTo(x2+(0.5+ 0.5*Math.sin(time)*canvas.width), y2);
-    ctx.moveTo(x1+Math.cos(time/10)*canvas.width, y1);
-    ctx.lineTo(x2-Math.sin(time/10)*canvas.width, y2);
+    ctx.moveTo(x1+Math.cos(time/5)*canvas.width, y1);
+    ctx.lineTo(x2-Math.sin(time/5)*canvas.width, y2);
 
     ctx.lineWidth = lineWidth;
     
@@ -199,8 +199,8 @@ function bezierX(x1, y1, x2, y2, hue){
 function bezierY(x1, y1, x2, y2, hue){
     ctx.beginPath();
 
-    ctx.moveTo(x1, y1-Math.cos(time/8)*canvas.height);
-    ctx.lineTo(x2, y2+Math.sin(time/8)*canvas.height);
+    ctx.moveTo(x1, y1-Math.cos(time/4)*canvas.height);
+    ctx.lineTo(x2, y2+Math.sin(time/4)*canvas.height);
 
     ctx.lineWidth = lineWidth;
     
@@ -220,20 +220,20 @@ function many(){
     var amp = 75;
     var distX = 3;
     var distY = 3;
-    var alpha = 1;
+    var alpha = 1.0;
     lineWidth = 0.5;
 
    for(var j = -canvas.height; j < canvas.height*2; j+=distY){
-    	var r = Math.floor(map(0.5+0.5*Math.cos(time), 1, 0, 255));
+    	var r = Math.floor(map(0.5+0.5*Math.cos(time*4/3), 1, 0, 255));
     	var g = Math.floor(map(j, h, 0, 255));
-    	var b = Math.floor(map(0.5+0.5*Math.sin(time), 1, 0, 255));
+    	var b = Math.floor(map(0.5+0.5*Math.sin(time/2), 1, 0, 255));
     	var color = "rgba("+r+","+g+", "+b+", "+alpha+")";
         bezierY(0,j, canvas.width, j, color /*hslaColor(j/5, 100, 50, alpha)*/);  
     }
     for(var i = -canvas.width; i < canvas.width*2; i+=distX){
     	var r = Math.floor(map(i, w, 0, 255));
     	var g = Math.floor(map(0.5+0.5*Math.sin(time), 1, 0, 255));
-    	var b = Math.floor(map(0.5+0.5*Math.cos(time), 1, 0, 255));
+    	var b = Math.floor(map(0.5+0.5*Math.cos(time*3/2), 1, 0, 255));
     	var color = "rgba("+r+","+g+", "+b+", "+alpha+")";
         bezierX(i, 0, i, canvas.height, color /*hslaColor(i/5, 100, 50, alpha)*/);  
 
@@ -251,7 +251,7 @@ function hslaColor(h,s,l,a)
 
 // many();
 function draw(){
-	time+=0.01;
+	time+=0.001;
 	many();
     camTex.needsUpdate = true;
 
