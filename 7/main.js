@@ -88,7 +88,7 @@ function initCameraTex(){
 
 function initFrameDifferencing(){
 	planeGeometry = new THREE.PlaneBufferGeometry(w,h);
-	// planeGeometry = new THREE.SphereGeometry(1000,100,100);
+	// planeGeometry = new THREE.BoxGeometry(w,h,1000);
 
 	scene1 = new THREE.Scene();
 	rt1 = new THREE.WebGLRenderTarget(w, h, { minFilter: THREE.LinearFilter, magFilter: THREE.NearestFilter, format: THREE.RGBFormat });
@@ -101,7 +101,7 @@ function initFrameDifferencing(){
 			mouseY: globalUniforms.mouseY
 		},
 		vertexShader: document.getElementById("vs").textContent,
-		fragmentShader: document.getElementById("fs").textContent
+		fragmentShader: document.getElementById("fbFs").textContent
 	});
 	mesh1 = new THREE.Mesh(planeGeometry, material1);
 	mesh1.position.set(0, 0, 0);
@@ -119,7 +119,7 @@ function initFrameDifferencing(){
 			mouseY: globalUniforms.mouseY
 		},
 		vertexShader: document.getElementById("vs").textContent,
-		fragmentShader: document.getElementById("fs").textContent
+		fragmentShader: document.getElementById("blurFrag").textContent
 	});
 	mesh2 = new THREE.Mesh(planeGeometry, material2);
 	mesh2.position.set(0, 0, 0);
@@ -171,7 +171,7 @@ function initFrameDifferencing(){
 			texture: {type: 't', value: rtFB}
 		},
 		vertexShader: document.getElementById("vs").textContent,
-		fragmentShader: document.getElementById("sineFs").textContent
+		fragmentShader: document.getElementById("fs").textContent
 	});
 	// shader = THREE.EdgeShader;
 	// shader = THREE.RGBShiftShader;
@@ -209,7 +209,7 @@ function bezierX(x1, y1, x2, y2, hue){
     ctx.lineWidth = lineWidth;
     
     // line color
-    ctx.strokeStyle = hue;
+    ctx.strokeStyle = "grey";
     ctx.stroke();   
 }
 function bezierY(x1, y1, x2, y2, hue){
@@ -221,7 +221,7 @@ function bezierY(x1, y1, x2, y2, hue){
     ctx.lineWidth = lineWidth;
     
     // line color
-    ctx.strokeStyle = hue;
+    ctx.strokeStyle = "grey";
     ctx.stroke();  
 }
 var time = 0.5;
@@ -234,10 +234,10 @@ function many(){
     var wx = 50;
     var hx = canvas.height;
     var amp = 75;
-    var distX = 7;
-    var distY = 7;
+    var distX = 3;
+    var distY = 3;
     var alpha = 1.0;
-    lineWidth = 3;
+    lineWidth = 0.5;
 
    for(var j = -canvas.height; j < canvas.height*2; j+=distY){
     	var r = Math.floor(map(0.5+0.5*Math.cos(time*4/3), 1, 0, 255));
